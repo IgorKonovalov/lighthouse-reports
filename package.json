@@ -1,0 +1,20 @@
+{
+  "name": "lighthouse-reports",
+  "version": "1.0.0",
+  "description": "Lighthouse automatic report for Amway project",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "npm run clean && node index.js",
+    "clean": "rimraf ./reports"
+  },
+  "keywords": [
+    "lighthouse"
+  ],
+  "author": "Igor Konovalov",
+  "license": "ISC",
+  "dependencies": {
+    "lighthouse": "^5.6.0",
+    "rimraf": "^3.0.0"
+  }
+}
