@@ -1,6 +1,6 @@
 lighthouse report generator
 
-Add set of pages to index.jss
+Add set of pages to index.js
 ```
 npm i
 npm start
