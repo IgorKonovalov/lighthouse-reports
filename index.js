@@ -27,13 +27,21 @@ async function launchChromeAndRunLighthouse(pageData, opts, index) {
   opts.port = chromeInstance.port;
   results = await lighthouse(url, opts, mobileConfig);
   writeResultsIntoFile(results, 'mobile', name);
-  await chromeInstance.kill();
+  try {
+    await chromeInstance.kill();
+  } catch (error) {
+    console.error(error);
+  }
 
   chromeInstance = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
   opts.port = chromeInstance.port;
   results = await lighthouse(url, opts, desktopConfig);
   writeResultsIntoFile(results, 'desktop', name);
-  await chromeInstance.kill();
+  try {
+    await chromeInstance.kill();
+  } catch (error) {
+    console.error(error);
+  }
   return Promise.resolve();
 }
 
@@ -46,8 +54,12 @@ const opts = {
 
 const pageUrls = [
   {
-    name: 'Google',
-    url: 'https://google.com/', 
+    name: 'Russia_fqa8_dev_rel_home',
+    url: 'https://fqa8.ru.hybris.eia.amway.net/', 
+  },
+  {
+    name: 'Russia_before_perf_home',
+    url: 'https://amway.ru.dev/',
   },
 ];
 
