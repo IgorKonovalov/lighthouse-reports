@@ -6,6 +6,20 @@ const log = require('lighthouse-logger');
 const mobileConfig = require('./configs/mobile');
 const desktopConfig = require('./configs/desktop');
 
+const opts = {
+  output: 'html',
+  chromeFlags: ['--headless', '--ignore-certificate-errors'],
+  logLevel: 'info',
+  view: true,
+};
+
+const pageUrls = [
+  {
+    name: 'google',
+    url: 'https://google.com', 
+  },
+];
+
 const writeResultsIntoFile = (results, type, name) => {
   res = results.report;
   const date = new Date().toISOString().split(':')[0];
@@ -17,43 +31,49 @@ const writeResultsIntoFile = (results, type, name) => {
   });
 };
 
+async function launchInstanceAndWriteResults({ chromeLauncher, config, opts, name, url }) {
+  const _opts = { ...opts };
+  const chromeInstance = await chromeLauncher.launch({ chromeFlags: _opts.chromeFlags });
+  _opts.port = chromeInstance.port;
+  const results = await lighthouse(url, _opts, config.config);
 
-async function launchChromeAndRunLighthouse(pageData, opts, index) {
-  const { url, name } = pageData;
-  let chromeInstance;
-  let results;
+  console.log('writing results...');
+  writeResultsIntoFile(results, config.name, name);
+  console.log('writing results done');
+  try {
+    console.log('killing chrome instance...');
+    await chromeInstance.kill();
+  } catch (error) {
+    console.error(error);
+  }
 
-  chromeInstance = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
-  opts.port = chromeInstance.port;
-  results = await lighthouse(url, opts, mobileConfig);
-  writeResultsIntoFile(results, 'mobile', name);
-  await chromeInstance.kill();
+  console.log('instance killed');
 
-  chromeInstance = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
-  opts.port = chromeInstance.port;
-  results = await lighthouse(url, opts, desktopConfig);
-  writeResultsIntoFile(results, 'desktop', name);
-  await chromeInstance.kill();
   return Promise.resolve();
 }
 
-const opts = {
-  output: 'html',
-  chromeFlags: ['--headless', '--ignore-certificate-errors'],
-  logLevel: 'info',
-  view: true,
-};
+async function launchChromeAndRunLighthouse(pageData, opts, index) {
+  const { url, name } = pageData;
+  const configs = [ {
+    config: mobileConfig,
+    name: 'mobile',
+  } ];
 
-const pageUrls = [
-  {
-    name: 'Google',
-    url: 'https://google.com/', 
-  },
-];
+  await configs.reduce(async (accumulatorPromise, currentConfig) => {
+    await launchInstanceAndWriteResults({
+      chromeLauncher,
+      config: currentConfig,
+      opts,
+      name,
+      url,
+    });
+  }, Promise.resolve());
+}
 
 
 function launchReports(pageUrls) {
   fs.mkdirSync('reports');
+
   pageUrls.reduce(async (previousPage, currentPage, index) => {
     await previousPage;
     return launchChromeAndRunLighthouse(currentPage, opts, index);
