@@ -17,6 +17,8 @@ const writeResultsIntoFile = (results, type, name) => {
   });
 };
 
+async function 
+
 
 async function launchChromeAndRunLighthouse(pageData, opts, index) {
   const { url, name } = pageData;
@@ -42,7 +44,6 @@ async function launchChromeAndRunLighthouse(pageData, opts, index) {
   } catch (error) {
     console.error(error);
   }
-  return Promise.resolve();
 }
 
 const opts = {
