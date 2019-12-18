@@ -54,12 +54,8 @@ const opts = {
 
 const pageUrls = [
   {
-    name: 'Russia_fqa8_dev_rel_home',
-    url: 'https://fqa8.ru.hybris.eia.amway.net/', 
-  },
-  {
-    name: 'Russia_before_perf_home',
-    url: 'https://amway.ru.dev/',
+    name: 'google',
+    url: 'https://google.com', 
   },
 ];
 
