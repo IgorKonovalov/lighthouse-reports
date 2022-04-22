@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "npm run clean && node index.js",
-    "clean": "rimraf ./reports"
+    "clean": "rimraf ./reports",
+    "prepare": "husky install"
   },
   "keywords": [
     "lighthouse"
@@ -18,6 +19,11 @@
     "rimraf": "^3.0.2"
   },
   "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.0",
     "prettier": "2.6.2"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }
