@@ -1,8 +1,10 @@
+const desktopConfig = require("lighthouse/lighthouse-core/config/desktop-config.js");
+
 const config = {
-  extends: 'lighthouse:default',
+  ...desktopConfig,
   settings: {
-    emulatedFormFactor: 'desktop',
-    onlyCategories: ['performance'],
+    ...desktopConfig.settings,
+    onlyCategories: ["performance"],
   },
 };
 
