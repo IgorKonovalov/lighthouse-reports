@@ -1,10 +1,10 @@
-const desktopConfig = require("lighthouse/lighthouse-core/config/desktop-config.js");
+const desktopConfig = require('lighthouse/lighthouse-core/config/desktop-config.js');
 
 const config = {
   ...desktopConfig,
   settings: {
     ...desktopConfig.settings,
-    onlyCategories: ["performance"],
+    onlyCategories: ['performance'],
   },
 };
 

@@ -17,19 +17,22 @@ const writeResultsIntoFile = (results, type, name) => {
   });
 };
 
-
 async function launchChromeAndRunLighthouse(pageData, opts, index) {
   const { url, name } = pageData;
   let chromeInstance;
   let results;
 
-  chromeInstance = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
+  chromeInstance = await chromeLauncher.launch({
+    chromeFlags: opts.chromeFlags,
+  });
   opts.port = chromeInstance.port;
   results = await lighthouse(url, opts, mobileConfig);
   writeResultsIntoFile(results, 'mobile', name);
   await chromeInstance.kill();
 
-  chromeInstance = await chromeLauncher.launch({ chromeFlags: opts.chromeFlags });
+  chromeInstance = await chromeLauncher.launch({
+    chromeFlags: opts.chromeFlags,
+  });
   opts.port = chromeInstance.port;
   results = await lighthouse(url, opts, desktopConfig);
   writeResultsIntoFile(results, 'desktop', name);
@@ -47,10 +50,9 @@ const opts = {
 const pageUrls = [
   {
     name: 'Google',
-    url: 'https://google.com/', 
+    url: 'https://google.com/',
   },
 ];
-
 
 function launchReports(pageUrls) {
   fs.mkdirSync('reports');
@@ -60,4 +62,4 @@ function launchReports(pageUrls) {
   }, Promise.resolve());
 }
 
-launchReports(pageUrls)
+launchReports(pageUrls);
