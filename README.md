@@ -1,15 +1,16 @@
 lighthouse report generator
 
 Add set of pages to index.js
+
 ```
 const pageUrls = [
   {
     name: 'Google',
-    url: 'https://google.com/', 
+    url: 'https://google.com/',
   },
   {
     name: 'yandex',
-    url: 'https://yandex.com/', 
+    url: 'https://yandex.com/',
   },
   ...
 ];
