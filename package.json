@@ -14,7 +14,7 @@
   "author": "Igor Konovalov",
   "license": "ISC",
   "dependencies": {
-    "lighthouse": "^9.5.0",
+    "lighthouse": "^9.6.8",
     "rimraf": "^3.0.2"
   }
 }
